@@ -14,21 +14,20 @@
 #error "XCHECK has been defined already"
 #endif // XCHECK
 
-#define XLOG(level) limonp::Logger(limonp::LL_##level, __FILE__, __LINE__).Stream() 
+#define XLOG(level) limonp::Logger(limonp::LL_##level, __FILE__, __LINE__).Stream()
 #define XCHECK(exp) if(!(exp)) XLOG(FATAL) << "exp: ["#exp << "] false. "
 
 namespace limonp {
 
 enum {
-  LL_DEBUG = 0, 
-  LL_INFO = 1, 
-  LL_WARNING = 2, 
-  LL_ERROR = 3, 
+  LL_DEBUG = 0,
+  LL_INFO = 1,
+  LL_WARNING = 2,
+  LL_ERROR = 3,
   LL_FATAL = 4,
 }; // enum
 
 static const char * LOG_LEVEL_ARRAY[] = {"DEBUG","INFO","WARN","ERROR","FATAL"};
-static const char * LOG_TIME_FORMAT = "%Y-%m-%d %H:%M:%S";
 
 class Logger {
  public:
@@ -43,11 +42,13 @@ class Logger {
     char buf[32];
     time_t now;
     time(&now);
-    strftime(buf, sizeof(buf), LOG_TIME_FORMAT, localtime(&now));
-    stream_ << buf 
-      << " " << filename 
-      << ":" << lineno 
-      << " " << LOG_LEVEL_ARRAY[level_] 
+    struct tm result;
+    localtime_r(&now, &result);
+    strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", &result);
+    stream_ << buf
+      << " " << filename
+      << ":" << lineno
+      << " " << LOG_LEVEL_ARRAY[level_]
       << " ";
   }
   ~Logger() {

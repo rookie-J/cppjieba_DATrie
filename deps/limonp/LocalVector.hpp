@@ -51,6 +51,9 @@ class LocalVector {
   };
  public:
   LocalVector<T>& operator = (const LocalVector<T>& vec) {
+      if(this == &vec){
+          return *this;
+      }
     clear();
     size_ = vec.size();
     capacity_ = vec.capacity();

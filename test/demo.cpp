@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
   cout << "[demo] Insert User Word" << endl;
   jieba.Cut("男默女泪", words);
   cout << limonp::Join(words.begin(), words.end(), "/") << endl;
-  jieba.InsertUserWord("男默女泪");
+  //jieba.InsertUserWord("男默女泪");
   jieba.Cut("男默女泪", words);
   cout << limonp::Join(words.begin(), words.end(), "/") << endl;
 
