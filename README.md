@@ -24,6 +24,15 @@ CppJieba是"结巴(Jieba)"中文分词的C++版本
 + 支持载自定义用户词典，多路径时支持分隔符'|'或者';'分隔。
 + 支持 `Linux` , `Mac OSX`, `Windows` 操作系统。
 
+## 引入 darts 后的不兼容改动
+
++ 由于 Double Array Trie 无法支持动态插入词，删除 InsertUserWord() 方法
++ 允许传入空的 idfPath 和 stopWordPath ，节省内存。
++ Double Array Trie 文件名默认会生成，也可以传 `dict_cache_path` 指定
++ 自定义词典中重复的词，只保留权重最大的。
++ 删除 Unicode.hpp 中的无用代码
+
+
 ## 用法
 
 ### 依赖软件
