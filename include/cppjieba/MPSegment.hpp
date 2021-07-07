@@ -40,6 +40,7 @@ public:
         return dictTrie_->IsUserDictSingleChineseWord(value);
     }
 private:
+/*
     void CalcDP(vector<DatDag>& dags) const {
         for (auto rit = dags.rbegin(); rit != dags.rend(); rit++) {
             rit->max_next = -1;
@@ -60,6 +61,33 @@ private:
                 if ((nextPos <= dags.size()) && (val > rit->max_weight)) {
                     rit->max_weight = val;
                     rit->max_next = nextPos;
+                }
+            }
+        }
+    }
+*/
+    void CalcDP(vector<DatDag>& dags) const {
+        size_t size = dags.size();
+
+        for (size_t i = 0; i < size; i++) {
+            dags[size - i - 1].max_next = -1;
+            dags[size - i - 1].max_weight = MIN_DOUBLE;
+
+            for (const auto & it : dags[size - i - 1].nexts) {
+                const auto nextPos = it.first;
+                double val = dictTrie_->GetMinWeight();
+
+                if (nullptr != it.second) {
+                    val = it.second->weight;
+                }
+
+                if (nextPos  < dags.size()) {
+                    val += dags[nextPos].max_weight;
+                }
+
+                if ((nextPos <= dags.size()) && (val > dags[size - i - 1].max_weight)) {
+                    dags[size - i - 1].max_weight = val;
+                    dags[size - i - 1].max_next = nextPos;
                 }
             }
         }
